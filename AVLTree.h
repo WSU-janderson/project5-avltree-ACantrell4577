@@ -4,7 +4,9 @@
 
 #ifndef AVLTREE_H
 #define AVLTREE_H
+#include <optional>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -35,11 +37,36 @@ protected:
 
 public:
 
+    bool insert(const string& key, size_t value);
 
+    bool remove(const string& key);
 
+    bool contains(const string& key) const;
+
+    optional<size_t> get(const string& key) const;
+
+    size_t& operator[](const string& key);
+
+    vector<string> keys() const;
+
+    vector<string> findRange(const string& lowKey, const string& highKey) const;
+
+    size_t size() const;
+
+    size_t getHeight() const;
+
+    AVLTree(const AVLTree& other);
+
+    void operator=(const AVLTree& other);
+
+    ~AVLTree();
+
+    friend ostream& operator<<(ostream& os, const AVLTree& avlTree);
 
     private:
     AVLNode* root;
+    int AVLSize;
+
 
     /* Helper methods for remove */
     // this overloaded remove will do the recursion to remove the node

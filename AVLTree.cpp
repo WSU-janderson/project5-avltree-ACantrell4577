@@ -2,6 +2,56 @@
 
 #include <string>
 
+bool AVLTree::insert(const string& key, size_t value) {
+
+}
+
+bool AVLTree::remove(const string& key) {
+
+}
+
+bool AVLTree::contains(const string& key) const {
+
+}
+
+optional<size_t> AVLTree::get(const string& key) const {
+
+}
+
+size_t& AVLTree::operator[] (const string& key) {
+
+}
+
+vector<string> AVLTree::findRange(const string& lowKey, const string& highKey) const {
+
+}
+
+size_t AVLTree::size() const {
+
+}
+
+//returns the height of the AVL tree
+size_t AVLTree::getHeight() const {
+    //calls getHeight on the root node of the AVL tree
+    return root->getHeight();
+}
+
+AVLTree::AVLTree(const AVLTree& other) {
+
+}
+
+void AVLTree::operator=(const AVLTree& other) {
+
+}
+
+AVLTree::~AVLTree() {
+
+}
+
+ostream& operator<<(ostream& os, const AVLTree& tree) {
+
+}
+
 size_t AVLTree::AVLNode::numChildren() const {
     return 0;
 }
@@ -11,7 +61,7 @@ bool AVLTree::AVLNode::isLeaf() const {
 }
 
 size_t AVLTree::AVLNode::getHeight() const {
-    return 0;
+    return this->height;
 }
 
 bool AVLTree::removeNode(AVLNode*& current){
