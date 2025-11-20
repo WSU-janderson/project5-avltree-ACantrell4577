@@ -64,6 +64,9 @@ public:
     //returns a vector of all of the keys inside the tree
     vector<string> keys() const;
 
+    //creates a vector of all keys inside the tree recursively
+    void keyVector(AVLNode& parent, vector<string>& keys) const;
+
     //returns a vector of a range of values inside the tree
     vector<string> findRange(const string& lowKey, const string& highKey) const;
 

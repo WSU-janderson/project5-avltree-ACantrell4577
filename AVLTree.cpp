@@ -2,11 +2,13 @@
 
 #include <string>
 
+//TODO
 //inserts node into the Tree using recursion
 bool AVLTree::insert(const string& key, size_t value) {
 
 }
 
+//TODO
 //removes a node from the Tree using recursion
 bool AVLTree::remove(const string& key) {
 
@@ -79,7 +81,6 @@ bool AVLTree::containsNode(AVLNode& node, const string& key) const{
     return false;
 
 }
-
 
 //Gets the value of a desired key using recursion
 optional<size_t> AVLTree::get(const string& key) const {
@@ -179,6 +180,7 @@ size_t& AVLTree::search(AVLNode& parent, const string& key) {
 
 }
 
+//TODO
 //finds a range of values inside the Tree using recursion
 vector<string> AVLTree::findRange(const string& lowKey, const string& highKey) const {
 
@@ -186,6 +188,44 @@ vector<string> AVLTree::findRange(const string& lowKey, const string& highKey) c
 
 //returns a vector with all of the current keys in the Tree
 vector<string> AVLTree::keys() const {
+
+
+
+    //creates vector
+    vector<string> keys;
+
+    if (this->root != nullptr) {
+        AVLNode* current = this->root;
+        keyVector(*current, keys);
+    }
+
+    return keys;
+}
+
+//itterates through the tree adding keys by reference to the keys vector
+void AVLTree::keyVector(AVLNode& parent, vector<string>& keys) const {
+
+    //creates variable
+    AVLNode* current = &parent;
+
+    //if left node exists
+    if (parent.left != nullptr) {
+        //set current to left
+        current = parent.left;
+        //recursive call
+        keyVector(*current, keys);
+    }
+
+    //adds key to vector before right side
+    keys.push_back(parent.key);
+
+    //if right exists
+    else if (parent.right != nullptr) {
+        //set current to right node
+        current = parent.right;
+        //recursive call
+        keyVector(*current, keys);
+    }
 
 }
 
@@ -202,21 +242,25 @@ size_t AVLTree::getHeight() const {
     return root->getHeight();
 }
 
+//TODO
 //copy constructor using recursion
 AVLTree::AVLTree(const AVLTree& other) {
 
 }
 
+//TODO
 //overloads equals operator to create a deep copy of the origional tree
 void AVLTree::operator=(const AVLTree& other) {
 
 }
 
+//TODO
 //destructor
 AVLTree::~AVLTree() {
 
 }
 
+//TODO
 //overloads the << operator to print the entire AVL tree using reccursion
 ostream& operator<<(ostream& os, const AVLTree& tree) {
 
@@ -291,6 +335,7 @@ bool AVLTree::removeNode(AVLNode*& current){
         }
         std::string newKey = smallestInRight->key;
         int newValue = smallestInRight->value;
+
         remove(root, smallestInRight->key); // delete this one
 
         current->key = newKey;
@@ -306,11 +351,13 @@ bool AVLTree::removeNode(AVLNode*& current){
     return true;
 }
 
-//
+//TODO
+//recursively iterates through the tree to find the correct node and remove it
 bool AVLTree::remove(AVLNode *&current, KeyType key) {
     return false;
 }
 
-
+//TODO
+//Balances the node if out of balance
 void AVLTree::balanceNode(AVLNode *&node) {
 }
