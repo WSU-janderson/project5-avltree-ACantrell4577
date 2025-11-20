@@ -52,6 +52,9 @@ public:
     //returns the value of the desired key node
     optional<size_t> get(const string& key) const;
 
+    //recursive get call
+    optional<size_t> get(AVLNode& parent, const string& key) const;
+
     //overloads the [] operator
     size_t& operator[](const string& key);
 

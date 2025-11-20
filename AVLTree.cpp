@@ -22,7 +22,16 @@ bool AVLTree::contains(const string& key) const {
 
     else {
         AVLNode* current = this->root;
+        //recursive call to try and find the key
         bool found = containsNode(*current, key);
+        //if found return true
+        if (found) {
+            return true;
+        }
+        //else false
+        else {
+            return false;
+        }
     }
 
 
@@ -36,7 +45,11 @@ bool AVLTree::containsNode(AVLNode& node, const string& key) const{
     AVLNode* current = &node;
     bool found;
 
-    if (current)
+    //if found return found
+    if (current->key == key) {
+        found = true;
+        return found;
+    }
 
     //while not at the end of a branch itterate
     while (current != nullptr) {
@@ -61,6 +74,8 @@ bool AVLTree::containsNode(AVLNode& node, const string& key) const{
             }
         }
     }
+
+    //if never founds return false
     return false;
 
 }
@@ -69,6 +84,51 @@ bool AVLTree::containsNode(AVLNode& node, const string& key) const{
 //Gets the value of a desired key using recursion
 optional<size_t> AVLTree::get(const string& key) const {
 
+    //if the tree is empty return nullopt
+    if (this->root == nullptr) {
+        return nullopt;
+    }
+
+    //set current to root
+    AVLNode* current = this->root;
+    //calls recurseive method to find the value, and if found return value else return null opt
+    return get(*current, key);
+}
+
+//reccursive get call to return the value of desired string
+optional<size_t> AVLTree::get(AVLNode& parent, const string& key) const {
+
+    if (parent.key == key) {
+        return parent.value;
+    }
+
+    AVLNode* current = &parent;
+    optional<size_t> val;
+
+    //if left node exists
+    if (parent.left != nullptr) {
+        //set current to left node then recursive call
+        current = parent.left;
+        val = get(*current, key);
+        //if val has a value return
+        if (val != nullopt) {
+            return val;
+        }
+    }
+
+    //if right node exists
+    else if (parent.right != nullptr) {
+        //set current to right node then recursive call
+        current = parent.right;
+        val = get(*current, key);
+        //if val has a value return
+        if (val != nullopt) {
+            return val;
+        }
+    }
+
+    //if not found return nullopt
+    return nullopt;
 }
 
 //overloads [] operator to find values with the desired string
