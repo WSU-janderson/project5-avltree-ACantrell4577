@@ -136,24 +136,36 @@ bool AVLTree::containsNode(AVLNode& node, const string& key) const{
             return false;
         }
 
-        //if there is a left leaf
-        if (parent->left != nullptr && parent->left->key > key) {
-            //set current to left leaf then recursively call
-            current = current->left;
-            found = containsNode(*current, key);
-            //if node is found return true
-            if (found) {
-                return true;
+
+        //if key is less than parent
+        if (parent->key > key) {
+            //if left key exists
+            if (parent->left != nullptr) {
+                //set current to left leaf then recursively call
+                current = current->left;
+                found = containsNode(*current, key);
+                //if node is found return true
+                if (found) {
+                    return true;
+                }
+            }
+            else {
+                return false;
             }
         }
-        //if there is a right leaf
-        if (parent->right != nullptr && parent->right->key < key) {
-            //set current node and recursively call
-            current = current->right;
-            found = containsNode(*current, key);
-            //if found then return true
-            if (found) {
-                return true;
+        //if key is greater than parent
+        if (parent->key < key) {
+            if (parent->right != nullptr) {
+                //set current node and recursively call
+                current = current->right;
+                found = containsNode(*current, key);
+                //if found then return true
+                if (found) {
+                    return true;
+                }
+            }
+            else {
+                return false;
             }
         }
     }
@@ -188,7 +200,7 @@ optional<size_t> AVLTree::get(AVLNode& parent, const string& key) const {
     optional<size_t> val;
 
     //if left node exists
-    if (parent.left != nullptr && parent.left->key > key) {
+    if (parent.left != nullptr && parent.key > key) {
         //set current to left node then recursive call
         current = parent.left;
         val = get(*current, key);
@@ -199,7 +211,7 @@ optional<size_t> AVLTree::get(AVLNode& parent, const string& key) const {
     }
 
     //if right node exists
-    if (parent.right != nullptr && parent.right->key < key) {
+    if (parent.right != nullptr && parent.key < key) {
         //set current to right node then recursive call
         current = parent.right;
         val = get(*current, key);
@@ -235,7 +247,7 @@ size_t& AVLTree::search(AVLNode& parent, const string& key) {
     size_t* val = nullptr;
 
     //if left node exists
-    if (parent.left != nullptr && parent.left->key > key) {
+    if (parent.left != nullptr && parent.key > key) {
         //set current to left node then recursive call
         current = parent.left;
         *val = search(*current, key);
@@ -246,7 +258,7 @@ size_t& AVLTree::search(AVLNode& parent, const string& key) {
     }
 
     //if right node exists
-    if (parent.right != nullptr && parent.right->key < key) {
+    if (parent.right != nullptr && parent.key < key) {
         //set current to right node then recursive call
         current = parent.right;
         *val = search(*current, key);
@@ -415,7 +427,35 @@ void AVLTree::clearTree(AVLNode& parent) {
 //overloads the << operator to print the entire AVL tree using reccursion
 ostream& operator<<(ostream& os, const AVLTree& tree) {
 
+    size_t depth = 0;
+    tree.printTree(os, *tree.root, depth);
+    return os;
 }
+
+void AVLTree::printTree(ostream &os, AVLNode &parent, size_t &depth) const{
+
+    //if right exists
+    if (parent.right != nullptr) {
+        //increase depth and dive deeper
+        size_t newDepth = depth + 1;
+        printTree(os, *parent.right, newDepth);
+    }
+
+    //print tabs for depth
+    for (int i = 0; i < depth; i++) {
+        os << "\t";
+    }
+    //print key value pair
+    os << "{" << parent.key << " : " << parent.value << "}" << endl ;
+
+    //if left tree exists
+    if (parent.left != nullptr) {
+        //increases depth then dive deeper
+        size_t newDepth = depth + 1;
+        printTree(os, *parent.left, newDepth);
+    }
+}
+
 
 //returns the number of children a node has
 size_t AVLTree::AVLNode::numChildren() const {

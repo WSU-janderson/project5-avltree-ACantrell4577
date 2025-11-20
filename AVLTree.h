@@ -97,6 +97,9 @@ public:
     //overloads << operator
     friend ostream& operator<<(ostream& os, const AVLTree& avlTree);
 
+    //recursive method for << operator
+    void printTree(ostream& os, AVLNode& parent, size_t& depth) const;
+
     //reccursive call of contains
     bool containsNode(AVLNode& node, const string& key) const;
 
