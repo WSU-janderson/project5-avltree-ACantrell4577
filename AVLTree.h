@@ -58,6 +58,9 @@ public:
     //overloads the [] operator
     size_t& operator[](const string& key);
 
+    //recursive call for [] operator
+    size_t& search(AVLNode& parent, const string& key);
+
     //returns a vector of all of the keys inside the tree
     vector<string> keys() const;
 

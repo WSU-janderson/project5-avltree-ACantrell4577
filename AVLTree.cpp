@@ -134,6 +134,49 @@ optional<size_t> AVLTree::get(AVLNode& parent, const string& key) const {
 //overloads [] operator to find values with the desired string
 size_t& AVLTree::operator[] (const string& key) {
 
+    if (this->root->key == key) {
+        return this->root->value;
+    }
+    else {
+        AVLNode* current = this->root;
+        return search(*current, key);
+    }
+}
+
+size_t& AVLTree::search(AVLNode& parent, const string& key) {
+
+    if (parent.key == key) {
+        return parent.value;
+    }
+
+    AVLNode* current = &parent;
+    size_t* val = nullptr;
+
+    //if left node exists
+    if (parent.left != nullptr) {
+        //set current to left node then recursive call
+        current = parent.left;
+        *val = search(*current, key);
+        //if val has a value return
+        if (val != nullptr) {
+            return *val;
+        }
+    }
+
+    //if right node exists
+    else if (parent.right != nullptr) {
+        //set current to right node then recursive call
+        current = parent.right;
+        *val = search(*current, key);
+        //if val has a value return
+        if (val != nullptr) {
+            return *val;
+        }
+    }
+
+    //if not found return nullptr
+    return *val;
+
 }
 
 //finds a range of values inside the Tree using recursion
