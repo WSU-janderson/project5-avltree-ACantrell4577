@@ -77,9 +77,23 @@ bool AVLTree::insertNode(AVLNode& node, const string& key, size_t value) {
 
 }
 
-//TODO
 //removes a node from the Tree using recursion
 bool AVLTree::remove(const string& key) {
+
+    //if tree is empty
+    if (root == nullptr) {
+        return false;
+    }
+    //if not
+    else {
+        //if key dosent exist
+        if (!(this->contains(key))) {
+            return false;
+        }
+        else {
+            return remove(this->root, key);
+        }
+    }
 
 }
 
@@ -519,8 +533,6 @@ bool AVLTree::removeNode(AVLNode*& current){
         std::string newKey = smallestInRight->key;
         int newValue = smallestInRight->value;
 
-        remove(root, smallestInRight->key); // delete this one
-
         current->key = newKey;
         current->value = newValue;
 
@@ -534,27 +546,79 @@ bool AVLTree::removeNode(AVLNode*& current){
     return true;
 }
 
-//TODO
 //recursively iterates through the tree to find the correct node and remove it
 bool AVLTree::remove(AVLNode *&current, KeyType key) {
-    return false;
+
+    //when key is found return true and remove node
+    if (current->key == key) {
+        return removeNode(current);
+    }
+
+    if (current->left != nullptr && current->key > key) {
+        //set current to left node then recursive call
+        current = current->left;
+    }
+
+    //if right node exists
+    if (current->right != nullptr && current->key < key) {
+        //set current to right node then recursive call
+        current = current->right;
+    }
+
+    return true;
 }
 
 //TODO
 //Balances the node if out of balance
 void AVLTree::balanceNode(AVLNode *&node) {
 
+    //update node height
+    AVLUpdateHeight(node);
+    //out of balance
+    if (AVLGetLoadBalance(node) == -2) {
+        //needs second rotation
+        if (AVLGetLoadBalance(node->right) == 1) {
+            //rotate right
+        }
+        //rotate left
+    }
+    //out of balance
+    else if (AVLGetLoadBalance(node) == 2) {
+        //needs second rotation
+        if (AVLGetLoadBalance(node->left) == -1) {
+            //rotate left
+         }
+        //Rotate right
+     }
 }
 
 void AVLTree::AVLUpdateHeight(AVLNode *node) {
+    //sets left height
     size_t leftH = -1;
    if (node->left != nullptr) {
        leftH = node->left->height;
    }
+    //sets right height
     size_t rightH = -1;
     if (node->right != nullptr) {
         rightH = node->right->height;
     }
+    //sets node height to the larger one + 1
      node->height = max(leftH, rightH) + 1;
 }
+
+size_t AVLTree::AVLGetLoadBalance(AVLNode *node) {
+    //sets left height
+    size_t leftH = -1;
+    if (node->left != nullptr) {
+        leftH = node->left->height;
+    }
+    //sets right height
+    size_t rightH = -1;
+     if (node->right != nullptr) {
+         size_t rightH = node->right->height;
+     }
+    //returns load balance
+      return leftH - rightH;
+   }
 

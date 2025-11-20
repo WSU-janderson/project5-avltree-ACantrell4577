@@ -105,6 +105,8 @@ public:
 
     void AVLUpdateHeight(AVLNode* node);
 
+    size_t AVLGetLoadBalance(AVLNode* node);
+
     private:
     AVLNode* root;
     size_t AVLSize;
