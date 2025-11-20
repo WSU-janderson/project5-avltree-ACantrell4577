@@ -2,31 +2,94 @@
 
 #include <string>
 
+//inserts node into the Tree using recursion
 bool AVLTree::insert(const string& key, size_t value) {
 
 }
 
+//removes a node from the Tree using recursion
 bool AVLTree::remove(const string& key) {
 
 }
 
+//searches the Tree for a node with the desired key
 bool AVLTree::contains(const string& key) const {
+
+    //if the tree is empty return false
+    if (this->root == nullptr) {
+        return false;
+    }
+
+    else {
+        AVLNode* current = this->root;
+        bool found = containsNode(*current, key);
+    }
+
 
 }
 
+//itterates through the tree
+bool AVLTree::containsNode(AVLNode& node, const string& key) const{
+
+    //sets variables
+    AVLNode* parent = &node;
+    AVLNode* current = &node;
+    bool found;
+
+    if (current)
+
+    //while not at the end of a branch itterate
+    while (current != nullptr) {
+        //if there is a left leaf
+        if (parent->left != nullptr) {
+            //set current to left leaf then recursively call
+            current = current->left;
+            found = containsNode(*current, key);
+            //if node is found return true
+            if (found) {
+                return true;
+            }
+        }
+        //if there is a right leaf
+        else if (parent->right != nullptr) {
+            //set current node and recursively call
+            current = current->right;
+            found = containsNode(*current, key);
+            //if found then return true
+            if (found) {
+                return true;
+            }
+        }
+    }
+    return false;
+
+}
+
+
+//Gets the value of a desired key using recursion
 optional<size_t> AVLTree::get(const string& key) const {
 
 }
 
+//overloads [] operator to find values with the desired string
 size_t& AVLTree::operator[] (const string& key) {
 
 }
 
+//finds a range of values inside the Tree using recursion
 vector<string> AVLTree::findRange(const string& lowKey, const string& highKey) const {
 
 }
 
+//returns a vector with all of the current keys in the Tree
+vector<string> AVLTree::keys() const {
+
+}
+
+//returns the AVLSize value of the AVL Tree
 size_t AVLTree::size() const {
+
+    return this->AVLSize;
 
 }
 
@@ -36,34 +99,66 @@ size_t AVLTree::getHeight() const {
     return root->getHeight();
 }
 
+//copy constructor using recursion
 AVLTree::AVLTree(const AVLTree& other) {
 
 }
 
+//overloads equals operator to create a deep copy of the origional tree
 void AVLTree::operator=(const AVLTree& other) {
 
 }
 
+//destructor
 AVLTree::~AVLTree() {
 
 }
 
+//overloads the << operator to print the entire AVL tree using reccursion
 ostream& operator<<(ostream& os, const AVLTree& tree) {
 
 }
 
+//returns the number of children a node has
 size_t AVLTree::AVLNode::numChildren() const {
-    return 0;
+
+    //variable declaration
+    size_t children = 0;
+
+    //if there is a right node increase children
+    if (this->right) {
+        children++;
+    }
+
+    //if there is a left node increase children
+    if (this->left) {
+        children++;
+    }
+
+    //return the number of children
+    return children;
 }
 
+//checks to see if the current node is a leaf node
 bool AVLTree::AVLNode::isLeaf() const {
-    return false;
+
+    //if there are no children return true
+    if (this->numChildren() == 0) {
+        return true;
+    }
+
+    //else return false
+    else {
+        return false;
+    }
 }
 
+//returns the height of the current node
 size_t AVLTree::AVLNode::getHeight() const {
     return this->height;
 }
 
+//recursively moves through the Tree to find and remove the desired node
 bool AVLTree::removeNode(AVLNode*& current){
     if (!current) {
         return false;
@@ -108,9 +203,11 @@ bool AVLTree::removeNode(AVLNode*& current){
     return true;
 }
 
+//
 bool AVLTree::remove(AVLNode *&current, KeyType key) {
     return false;
 }
+
 
 void AVLTree::balanceNode(AVLNode *&node) {
 }
