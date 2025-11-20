@@ -103,6 +103,8 @@ public:
     //reccursive call of contains
     bool containsNode(AVLNode& node, const string& key) const;
 
+    void AVLUpdateHeight(AVLNode* node);
+
     private:
     AVLNode* root;
     size_t AVLSize;

@@ -3,7 +3,6 @@
 
 #include <string>
 
-//TODO
 //inserts node into the Tree using recursion
 bool AVLTree::insert(const string& key, size_t value) {
 
@@ -49,10 +48,7 @@ bool AVLTree::insertNode(AVLNode& node, const string& key, size_t value) {
         else {
             insertNode(*node.left, key, value);
         }
-        //checks height and if too small readjusts
-        if (node.height <= node.left->height) {
-            node.height = node.left->height + 1;
-        }
+        AVLUpdateHeight(&node);
         return true;
 
     }
@@ -74,10 +70,7 @@ bool AVLTree::insertNode(AVLNode& node, const string& key, size_t value) {
         else {
             insertNode(*node.right, key, value);
         }
-        //checks height and if too small readjusts
-        if (node.height <= node.right->height) {
-            node.height = node.right->height + 1;
-        }
+        AVLUpdateHeight(&node);
         return true;
 
     }
@@ -423,7 +416,6 @@ void AVLTree::clearTree(AVLNode& parent) {
 
 }
 
-//TODO
 //overloads the << operator to print the entire AVL tree using reccursion
 ostream& operator<<(ostream& os, const AVLTree& tree) {
 
@@ -551,4 +543,18 @@ bool AVLTree::remove(AVLNode *&current, KeyType key) {
 //TODO
 //Balances the node if out of balance
 void AVLTree::balanceNode(AVLNode *&node) {
+
 }
+
+void AVLTree::AVLUpdateHeight(AVLNode *node) {
+    size_t leftH = -1;
+   if (node->left != nullptr) {
+       leftH = node->left->height;
+   }
+    size_t rightH = -1;
+    if (node->right != nullptr) {
+        rightH = node->right->height;
+    }
+     node->height = max(leftH, rightH) + 1;
+}
+
