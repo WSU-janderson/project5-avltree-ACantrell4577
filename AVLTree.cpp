@@ -283,7 +283,8 @@ size_t& AVLTree::search(AVLNode& parent, const string& key) {
 //TODO
 //finds a range of values inside the Tree using recursion
 vector<string> AVLTree::findRange(const string& lowKey, const string& highKey) const {
-
+    vector<string> range;
+    return range;
 }
 
 //returns a vector with all of the current keys in the Tree
@@ -438,6 +439,7 @@ ostream& operator<<(ostream& os, const AVLTree& tree) {
     return os;
 }
 
+//prints the tree to the os
 void AVLTree::printTree(ostream &os, AVLNode &parent, size_t &depth) const{
 
     //if right exists
@@ -461,7 +463,6 @@ void AVLTree::printTree(ostream &os, AVLNode &parent, size_t &depth) const{
         printTree(os, *parent.left, newDepth);
     }
 }
-
 
 //returns the number of children a node has
 size_t AVLTree::AVLNode::numChildren() const {
@@ -592,6 +593,7 @@ void AVLTree::balanceNode(AVLNode *&node) {
      }
 }
 
+//updates the height of the node
 void AVLTree::AVLUpdateHeight(AVLNode *node) {
     //sets left height
     size_t leftH = -1;
@@ -607,6 +609,7 @@ void AVLTree::AVLUpdateHeight(AVLNode *node) {
      node->height = max(leftH, rightH) + 1;
 }
 
+//gets the load balance of the node
 size_t AVLTree::AVLGetLoadBalance(AVLNode *node) {
     //sets left height
     size_t leftH = -1;
@@ -622,3 +625,16 @@ size_t AVLTree::AVLGetLoadBalance(AVLNode *node) {
       return leftH - rightH;
    }
 
+//TODO
+//rotates the node to the left
+void AVLTree::leftRorate(AVLNode *node) {
+
+
+}
+
+//TODO
+//rotates the node to the right
+void AVLTree::rightRorate(AVLNode *node) {
+
+
+}

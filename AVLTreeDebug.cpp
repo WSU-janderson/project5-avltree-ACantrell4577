@@ -35,8 +35,11 @@ int main() {
      cout << tree << endl;
 
      insertResult = tree.insert("V", 'V');
+    cout << insertResult << endl;
      insertResult = tree.insert("A", 'A'); // false, duplicate
+    cout << insertResult << endl;
      insertResult = tree.insert("Z", 'Z');
+ cout << insertResult << endl;
      insertResult = tree.insert("M", 'M');
      insertResult = tree.insert("D", 'D'); // false, duplicate
      cout << endl << endl;
@@ -66,7 +69,7 @@ int main() {
     cout << endl;
 //
     // findRange
-    //vector<int> rangeTest = tree.findRange("D", "W");
+    vector<string> rangeTest = tree.findRange("D", "W");
     // 70 68 82 75 77 86
     for (auto val: rangeTest) {
         cout << val << " ";

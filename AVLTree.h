@@ -107,6 +107,10 @@ public:
 
     size_t AVLGetLoadBalance(AVLNode* node);
 
+    void leftRorate(AVLNode* node);
+
+    void rightRorate(AVLNode* node);
+
     private:
     AVLNode* root;
     size_t AVLSize;
