@@ -44,6 +44,9 @@ public:
     //used to insert into the tree
     bool insert(const string& key, size_t value);
 
+    //recursive insert into tree
+    bool insertNode(AVLNode& node, const string& key, size_t value);
+
     //used to remove a node from the tree
     bool remove(const string& key);
 
@@ -93,9 +96,6 @@ public:
 
     //overloads << operator
     friend ostream& operator<<(ostream& os, const AVLTree& avlTree);
-
-    //creates new node then inserts it into the tree
-    void insertNode(AVLNode& node);
 
     //reccursive call of contains
     bool containsNode(AVLNode& node, const string& key) const;

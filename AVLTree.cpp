@@ -1,10 +1,86 @@
 #include "AVLTree.h"
+#include <iostream>
 
 #include <string>
 
 //TODO
 //inserts node into the Tree using recursion
 bool AVLTree::insert(const string& key, size_t value) {
+
+    //if empty tree
+    if (root == nullptr) {
+        root = new AVLNode();
+        root->key = key;
+        root->value = value;
+        return true;
+    }
+    //if not
+    else {
+
+        //if the key already exists
+        if (this->contains(key)) {
+            return false;
+        }
+        else {
+            //inserts node
+            return insertNode(*this->root, key, value);
+        }
+    }
+
+}
+
+//recursive method to insert a node
+bool AVLTree::insertNode(AVLNode& node, const string& key, size_t value) {
+
+    //if key is greater than insert
+    if (node.key > key) {
+
+        //if left node is empty
+        if (node.left == nullptr) {
+            //create new node with data
+            AVLNode* newNode = new AVLNode();
+            newNode->key = key;
+            newNode->value = value;
+
+            //make new left leaf
+            node.left = newNode;
+        }
+        //if not leaf node recursive call
+        else {
+            insertNode(*node.left, key, value);
+        }
+        //checks height and if too small readjusts
+        if (node.height <= node.left->height) {
+            node.height = node.left->height + 1;
+        }
+        return true;
+
+    }
+
+    //if key is less than insert
+    if (node.key < key) {
+
+        //if right node is empty
+        if (node.right == nullptr) {
+            //create new node with data
+            AVLNode* newNode = new AVLNode();
+            newNode->key = key;
+            newNode->value = value;
+
+            //make new right leaf
+            node.right = newNode;
+        }
+        //if not leaf node recursive call
+        else {
+            insertNode(*node.right, key, value);
+        }
+        //checks height and if too small readjusts
+        if (node.height <= node.right->height) {
+            node.height = node.right->height + 1;
+        }
+        return true;
+
+    }
 
 }
 
@@ -55,8 +131,13 @@ bool AVLTree::containsNode(AVLNode& node, const string& key) const{
 
     //while not at the end of a branch itterate
     while (current != nullptr) {
+
+        if (current->left == nullptr && current->right == nullptr) {
+            return false;
+        }
+
         //if there is a left leaf
-        if (parent->left != nullptr) {
+        if (parent->left != nullptr && parent->left->key > key) {
             //set current to left leaf then recursively call
             current = current->left;
             found = containsNode(*current, key);
@@ -66,7 +147,7 @@ bool AVLTree::containsNode(AVLNode& node, const string& key) const{
             }
         }
         //if there is a right leaf
-        if (parent->right != nullptr) {
+        if (parent->right != nullptr && parent->right->key < key) {
             //set current node and recursively call
             current = current->right;
             found = containsNode(*current, key);
@@ -107,7 +188,7 @@ optional<size_t> AVLTree::get(AVLNode& parent, const string& key) const {
     optional<size_t> val;
 
     //if left node exists
-    if (parent.left != nullptr) {
+    if (parent.left != nullptr && parent.left->key > key) {
         //set current to left node then recursive call
         current = parent.left;
         val = get(*current, key);
@@ -118,7 +199,7 @@ optional<size_t> AVLTree::get(AVLNode& parent, const string& key) const {
     }
 
     //if right node exists
-    if (parent.right != nullptr) {
+    if (parent.right != nullptr && parent.right->key < key) {
         //set current to right node then recursive call
         current = parent.right;
         val = get(*current, key);
@@ -154,7 +235,7 @@ size_t& AVLTree::search(AVLNode& parent, const string& key) {
     size_t* val = nullptr;
 
     //if left node exists
-    if (parent.left != nullptr) {
+    if (parent.left != nullptr && parent.left->key > key) {
         //set current to left node then recursive call
         current = parent.left;
         *val = search(*current, key);
@@ -165,7 +246,7 @@ size_t& AVLTree::search(AVLNode& parent, const string& key) {
     }
 
     //if right node exists
-    if (parent.right != nullptr) {
+    if (parent.right != nullptr && parent.right->key < key) {
         //set current to right node then recursive call
         current = parent.right;
         *val = search(*current, key);
