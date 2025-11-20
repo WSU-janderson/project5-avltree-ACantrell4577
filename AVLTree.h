@@ -32,6 +32,7 @@ protected:
         // number of hops to deepest leaf node
         size_t getHeight() const;
 
+        AVLNode() : left(nullptr), right(nullptr), height(0), key(""), value(0) {}
 
     };
 
@@ -79,11 +80,16 @@ public:
     //creates a deep copy of the tree
     AVLTree(const AVLTree& other);
 
+    //recursive call for avltree
+    AVLNode* copyTree(AVLNode& parent);
+
     //creates a deep copy of the tree
     void operator=(const AVLTree& other);
 
     //destructor for the tree
     ~AVLTree();
+
+    void clearTree(AVLNode& parent);
 
     //overloads << operator
     friend ostream& operator<<(ostream& os, const AVLTree& avlTree);

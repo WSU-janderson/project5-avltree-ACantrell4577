@@ -66,7 +66,7 @@ bool AVLTree::containsNode(AVLNode& node, const string& key) const{
             }
         }
         //if there is a right leaf
-        else if (parent->right != nullptr) {
+        if (parent->right != nullptr) {
             //set current node and recursively call
             current = current->right;
             found = containsNode(*current, key);
@@ -118,7 +118,7 @@ optional<size_t> AVLTree::get(AVLNode& parent, const string& key) const {
     }
 
     //if right node exists
-    else if (parent.right != nullptr) {
+    if (parent.right != nullptr) {
         //set current to right node then recursive call
         current = parent.right;
         val = get(*current, key);
@@ -165,7 +165,7 @@ size_t& AVLTree::search(AVLNode& parent, const string& key) {
     }
 
     //if right node exists
-    else if (parent.right != nullptr) {
+    if (parent.right != nullptr) {
         //set current to right node then recursive call
         current = parent.right;
         *val = search(*current, key);
@@ -220,7 +220,7 @@ void AVLTree::keyVector(AVLNode& parent, vector<string>& keys) const {
     keys.push_back(parent.key);
 
     //if right exists
-    else if (parent.right != nullptr) {
+    if (parent.right != nullptr) {
         //set current to right node
         current = parent.right;
         //recursive call
@@ -242,21 +242,91 @@ size_t AVLTree::getHeight() const {
     return root->getHeight();
 }
 
-//TODO
 //copy constructor using recursion
 AVLTree::AVLTree(const AVLTree& other) {
 
+    //if the tree is empty set new tree to empty
+    if (other.root == nullptr) {
+        this->root = nullptr;
+    }
+    //else recursive copy function
+    else {
+        this->root = copyTree(*other.root);
+    }
+
 }
 
-//TODO
+//recursive call for AVLTree
+AVLTree::AVLNode* AVLTree::copyTree(AVLNode& parent) {
+
+    //vairable declaration
+    AVLNode* current;
+
+    //creates a new node
+    AVLNode* node = new AVLNode();
+
+    //if a left node exists
+    if (parent.left != nullptr) {
+        //sets current to left
+        current = parent.left;
+        //recursive call is set to the new nodes left
+        node->left = copyTree(*current);
+    }
+
+    //if a right node exists
+    if (parent.right != nullptr) {
+        //sets current to right node
+        current = parent.right;
+        //recursive call sets to the new nodes right
+        node->right = copyTree(*current);
+    }
+
+    node->key = parent.key;
+    node->value = parent.value;
+    node->height = parent.height;
+
+}
+
 //overloads equals operator to create a deep copy of the origional tree
 void AVLTree::operator=(const AVLTree& other) {
 
+    //cals a destructor to delete all existing nodes
+    clearTree(*this->root);
+
+    //calls copy method to copy the other AVLTree
+    copyTree(*other.root);
 }
 
-//TODO
 //destructor
 AVLTree::~AVLTree() {
+
+    clearTree(*this->root);
+    delete this->root;
+
+}
+
+//deletes all but the root node
+void AVLTree::clearTree(AVLNode& parent) {
+
+    AVLNode* current = &parent;
+
+    //if a left node exists
+    if (parent.left != nullptr) {
+        //set current and recursive call
+        current = parent.left;
+        clearTree(*current);
+        //delete the left node
+        delete parent.left;
+    }
+
+    //if right node exists
+    if (parent.right != nullptr) {
+        //sets current and recursive call
+        current = parent.right;
+        clearTree(*current);
+        //deletes right child
+        delete parent.right;
+    }
 
 }
 
